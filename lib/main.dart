@@ -1,93 +1,25 @@
 import 'package:flutter/material.dart';
-
+import 'package:mm_summertask_2023_app/routes.dart';
 void main() {
-  runApp(const MaterialApp(
-    home: MM(),
-  ));
+runApp(const MMapp());
 }
-
-class MM extends StatefulWidget {
-  const MM({Key? key}) : super(key: key);
+class MMapp extends StatefulWidget {
+  const MMapp({Key? key}) : super(key: key);
 
   @override
-  State<MM> createState() => _MMState();
+  State<MMapp> createState() => _MMappState();
 }
 
-class _MMState extends State<MM> {
+class _MMappState extends State<MMapp> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Container(
-          child: Row(
-            children: [
-              CircleAvatar(
-
-              ),
-            SizedBox(width: 20),
-              Text('Monday Morning',
-              style: TextStyle(
-                color: Colors.black,
-              ),
-              ),
-          ],
-          ),
-      ),
-      ),
-      body:
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '🔥 Trending',
-
-                ),
-
-              ],
-            ),
-            color: Colors.deepOrange,
-
-
-          ),
-          Divider(
-            height: 25,
-            color: Colors.grey,
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-            child: Text(
-              '2'
-            ),
-            color: Colors.cyan ,
-
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-            child: Text(
-              '3'
-            ),
-            color: Colors.brown,
-
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-            child: Text(
-              '4'
-            ),
-            color: Colors.lime,
-          ),
-        ],
-      ),
-
-
+    return MaterialApp.router(
+      routeInformationParser: Approuter().router.routeInformationParser,
+      routerDelegate: Approuter().router.routerDelegate,
     );
   }
 }
+
+
+
 
