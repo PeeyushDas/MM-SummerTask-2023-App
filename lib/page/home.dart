@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mm_summertask_2023_app/page/mm_route_constants.dart';
+import 'package:mm_summertask_2023_app/page/admin.dart';
+import 'package:mm_summertask_2023_app/page/article.dart';
 import 'package:scroll_loop_auto_scroll/scroll_loop_auto_scroll.dart';
-void main() {
-  runApp(const MaterialApp(
-    home: MM(),
-  ));
-}
+import 'package:mm_summertask_2023_app/page/search.dart';
 
 class MM extends StatefulWidget {
   const MM({Key? key}) : super(key: key);
@@ -22,21 +18,25 @@ class _MMState extends State<MM> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Container(
-          child: Row(
-            children: [
-              CircleAvatar(
+        title:
+            Container(
+              child: Row(
+                children: const [
+                  CircleAvatar(
 
+                  ),
+                  SizedBox(width: 20),
+                  Text('Monday Morning',
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(width: 20),
-              Text('Monday Morning',
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
-        ),
+            ),
+
+            
+          
       ),
       body:
 
@@ -51,8 +51,25 @@ class _MMState extends State<MM> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: 15,),
+            TextField(
+              style: TextStyle(height:0.15),
+              decoration: InputDecoration( 
+                 filled: true,
+                 fillColor: Color.fromARGB(179, 216, 213, 213),
+                 border: OutlineInputBorder(
+                   borderRadius: BorderRadius.circular(10),
+                   borderSide: BorderSide.none,
+                 ),
+                 hintText: 'Search',
+                 suffixIcon: Icon(Icons.search),
+            ),
+
+                 
+            ),
+            SizedBox(height: 10),
       
-                  Text(
+                  const Text(
                     '🔥 Trending',
                     style: (
                         TextStyle(
@@ -114,26 +131,74 @@ class _MMState extends State<MM> {
        child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            ElevatedButton(onPressed: (){
-              GoRouter.of(context).pushNamed(MMapprouteConstants.articleRouteName);
-             },
-             child: Text (
-              'article'
+             ElevatedButton(onPressed: (){
+Navigator.pushReplacement(
+    context, 
+    PageRouteBuilder(
+        pageBuilder: (context, animation1, animation2) => MM(),
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+    ),
+);                   },
+             style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white, // Background color
+  ),
+             child: Icon(
+              Icons.home,
+              color: Colors.black,),
+             
              ),
+            ElevatedButton(onPressed: (){
+Navigator.pushReplacement(
+    context, 
+    PageRouteBuilder(
+        pageBuilder: (context, animation1, animation2) => articl(),
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+    ),
+);                   },style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,),
+             
+             child: Icon(
+              Icons.article_sharp,
+              color: Colors.black,
+             ),
+             
              ),
              ElevatedButton(onPressed: (){
-              GoRouter.of(context).pushNamed(MMapprouteConstants.searchRouteName);
+              
+              Navigator.pushReplacement(
+    context, 
+    PageRouteBuilder(
+        pageBuilder: (context, animation1, animation2) => search(),
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+    ),
+);
              },
-             child: Text (
-              'search'
+             
+             style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,),
+             child: Icon(
+              Icons.search,
+              color: Colors.black,
              ),
              ),
             ElevatedButton(onPressed: () {
-                  GoRouter.of(context).pushNamed(MMapprouteConstants.adminRouteName);
-                   },
-                 child: Text (
-                  'admin'
-                 ),
+Navigator.pushReplacement(
+    context, 
+    PageRouteBuilder(
+        pageBuilder: (context, animation1, animation2) => admin(),
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+    ),
+);                         },
+                   style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,),
+                 child: Icon(
+              Icons.account_circle_rounded,
+              color: Colors.black,
+             ),
                  ),
           ],
         ),
@@ -163,10 +228,10 @@ class _articleState extends State<article> {
       height: 150,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: Colors.red,
+        color: Colors.blue,
       ),
       child: Text(
-          'Article 1'
+          'Article '
       ),
     );
   }

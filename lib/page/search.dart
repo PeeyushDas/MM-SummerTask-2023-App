@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mm_summertask_2023_app/page/admin.dart';
+import 'package:mm_summertask_2023_app/page/article.dart';
+import 'package:mm_summertask_2023_app/page/home.dart';
 
-void main() {
-  runApp(const MaterialApp(
-    home: search(),
-  ));
-}
+
 
 class search extends StatefulWidget {
   const search({Key? key}) : super(key: key);
@@ -22,7 +21,7 @@ class _searchState extends State<search> {
         backgroundColor: Colors.white,
         title: Container(
           child: Row(
-            children: [
+            children: const [
               CircleAvatar(
 
               ),
@@ -36,6 +35,85 @@ class _searchState extends State<search> {
           ),
         ),
       ),
+
+      bottomNavigationBar: BottomAppBar(
+       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+             ElevatedButton(onPressed: (){
+Navigator.pushReplacement(
+    context, 
+    PageRouteBuilder(
+        pageBuilder: (context, animation1, animation2) => MM(),
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+    ),
+);                   },
+             style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white, // Background color
+  ),
+             child: Icon(
+              Icons.home,
+              color: Colors.black,),
+             
+             ),
+            ElevatedButton(onPressed: (){
+Navigator.pushReplacement(
+    context, 
+    PageRouteBuilder(
+        pageBuilder: (context, animation1, animation2) => articl(),
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+    ),
+);                   },style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,),
+             
+             child: Icon(
+              Icons.article_sharp,
+              color: Colors.black,
+             ),
+             
+             ),
+             ElevatedButton(onPressed: (){
+Navigator.pushReplacement(
+    context, 
+    PageRouteBuilder(
+        pageBuilder: (context, animation1, animation2) => search(),
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+    ),
+);                   },
+             style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,),
+             child: Icon(
+              Icons.search,
+              color: Colors.black,
+             ),
+             ),
+            ElevatedButton(onPressed: () {
+Navigator.pushReplacement(
+    context, 
+    PageRouteBuilder(
+        pageBuilder: (context, animation1, animation2) => admin(),
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+    ),
+);                         },
+                   style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,),
+                 child: Icon(
+              Icons.account_circle_rounded,
+              color: Colors.black,
+             ),
+                 ),
+          ],
+        ),
+             
+      
+    color: Colors.white,
+
+
+    ),
     );
     
   }
