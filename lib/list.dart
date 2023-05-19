@@ -1,31 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:mm_summertask_2023_app/page/article.dart';
 
-List<String> trending = [
-  "Article 1",
-  "Article 2",
-  "Article 3",
-  "Article 4",
-  "Article 5",
-  "Article 6",
-  "Article 7",
+List<Map<String, dynamic>> trending = [
+  {"titles": "Article 1", "description": " a"},
+  {"titles": "Article 2", "description": " ab"},
+  {"titles": "Article 3", "description": " abc"},
+  {"titles": "Article 4", "description": " abcd"},
+  {"titles": "Article 5", "description": " abcde"},
+  {"titles": "Article 6", "description": " abcdef"},
+  {"titles": "Article 7", "description": " abcdefg"},
+  {"titles": "Article 8", "description": " abcdefgh"},
+  {"titles": "Article 9", "description": " abcdefghi"},
 ];
-List<String> articles = [
-  "Article 1",
-  "Article 2",
-  "Article 3",
-  "Article 4",
-  "Article 5",
-  "Article 6",
-  "Article 7",
-  "Article 8",
-  "Article 9",
-  "Article 10",
-  "Article 11",
-  "Article 12",
-  "Article 13",
-  "Article 14",
-  "Article 15",
-  "Article 16",
+List<Map<String, dynamic>> articles = [
+  {"titles": "Article 1", "description": " a"},
+  {"titles": "Article 2", "description": " ab"},
+  {"titles": "Article 3", "description": " abc"},
+  {"titles": "Article 4", "description": " abcd"},
+  {"titles": "Article 5", "description": " abcde"},
+  {"titles": "Article 6", "description": " abcdef"},
+  {"titles": "Article 7", "description": " abcdefg"},
+  {"titles": "Article 8", "description": " abcdefgh"},
+  {"titles": "Article 9", "description": " abcdefghi"},
 ];
 
 class MMlist extends SearchDelegate {
@@ -57,21 +53,28 @@ class MMlist extends SearchDelegate {
     return ListView.builder(
         itemCount: trending.length,
         itemBuilder: (context, index) {
-          final suggs = trending[index];
+          final suggs = (trending[index]['titles']);
 
           return ListTile(
             title: Text(suggs),
             onTap: () {
-              query = suggs;
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation1, animation2) =>
+                      articl(index),
+                  transitionDuration: Duration.zero,
+                  reverseTransitionDuration: Duration.zero,
+                ),
+              );
+              showResults(context);
             },
           );
         });
   }
 
   @override
-  @override
-  Widget buildResults(BuildContext context) {
-    // TODO: implement buildResults
-    throw UnimplementedError();
-  }
+  Widget buildResults(BuildContext context) => Text(
+        query,
+      );
 }

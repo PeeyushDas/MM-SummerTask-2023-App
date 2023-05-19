@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mm_summertask_2023_app/page/article.dart';
+import 'package:mm_summertask_2023_app/components/btbar.dart';
+import 'package:mm_summertask_2023_app/components/txtfield.dart';
 import 'package:mm_summertask_2023_app/page/home.dart';
-import 'package:mm_summertask_2023_app/page/search.dart';
+
+import 'article.dart';
 
 class admin extends StatefulWidget {
   const admin({Key? key}) : super(key: key);
@@ -19,100 +21,67 @@ class _adminState extends State<admin> {
         backgroundColor: Colors.black,
         title: Row(
           children: const [
-            CircleAvatar(),
+            CircleAvatar(
+              backgroundImage: AssetImage('lib/assests/mm.png'),
+            ),
             SizedBox(width: 20),
             Text('MONDAY MORNING'),
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) =>
-                        const MM(),
-                    transitionDuration: Duration.zero,
-                    reverseTransitionDuration: Duration.zero,
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
+      body: Center(
+        child: SingleChildScrollView(
+          reverse: true,
+          child: Column(
+            children: [
+              const SizedBox(height: 85),
+              const Icon(
+                Icons.person,
+                size: 80,
               ),
-              child: const Icon(
-                Icons.home,
-                color: Colors.black,
+              const Text(
+                'Admin login',
+                style: TextStyle(fontSize: 35, fontWeight: FontWeight.w500),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) =>
-                        const articl(),
-                    transitionDuration: Duration.zero,
-                    reverseTransitionDuration: Duration.zero,
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
+              const SizedBox(
+                height: 25,
               ),
-              child: const Icon(
-                Icons.article_sharp,
-                color: Colors.black,
+              Txtf(),
+              const SizedBox(
+                height: 15,
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) =>
-                        const search(),
-                    transitionDuration: Duration.zero,
-                    reverseTransitionDuration: Duration.zero,
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
+              Txtf2(),
+              const SizedBox(
+                height: 25,
               ),
-              child: const Icon(
-                Icons.search,
-                color: Colors.black,
+              SizedBox(
+                height: 50,
+                width: 100,
+                child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation1, animation2) =>
+                              const MM(),
+                          transitionDuration: Duration.zero,
+                          reverseTransitionDuration: Duration.zero,
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                    ),
+                    child: const Text('Login')),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) =>
-                        const admin(),
-                    transitionDuration: Duration.zero,
-                    reverseTransitionDuration: Duration.zero,
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
+              const SizedBox(
+                height: 25,
               ),
-              child: const Icon(
-                Icons.account_circle_rounded,
-                color: Colors.white,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
+      bottomNavigationBar: const Adbt(),
     );
   }
 }

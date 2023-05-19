@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mm_summertask_2023_app/page/admin.dart';
-import 'package:mm_summertask_2023_app/page/home.dart';
-import 'package:mm_summertask_2023_app/page/search.dart';
+import 'package:mm_summertask_2023_app/components/btbar.dart';
+import 'package:mm_summertask_2023_app/list.dart';
 
-class articl extends StatefulWidget {
-  const articl({Key? key}) : super(key: key);
+class articl extends StatelessWidget {
+  articl(this.index);
 
-  @override
-  State<articl> createState() => _articlState();
-}
+  final int index;
 
-class _articlState extends State<articl> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,100 +15,35 @@ class _articlState extends State<articl> {
         backgroundColor: Colors.black,
         title: Row(
           children: const [
-            CircleAvatar(),
-            SizedBox(width: 20),
-            Text('MONDAY MORNING'),
+            Text('ARTICLE PAGE'),
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) =>
-                        const MM(),
-                    transitionDuration: Duration.zero,
-                    reverseTransitionDuration: Duration.zero,
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-              ),
-              child: const Icon(
-                Icons.home,
-                color: Colors.black,
-              ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(children: [
+          const SizedBox(
+            height: 15,
+          ),
+          Text(
+            trending[index]['titles'],
+            style: const TextStyle(
+              fontWeight: FontWeight.w900,
+              fontSize: 25,
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) =>
-                        const articl(),
-                    transitionDuration: Duration.zero,
-                    reverseTransitionDuration: Duration.zero,
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-              ),
-              child: const Icon(
-                Icons.article_sharp,
-                color: Colors.white,
-              ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          Text(
+            trending[index]['description'],
+            style: const TextStyle(
+              fontWeight: FontWeight.w300,
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) =>
-                        const search(),
-                    transitionDuration: Duration.zero,
-                    reverseTransitionDuration: Duration.zero,
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-              ),
-              child: const Icon(
-                Icons.search,
-                color: Colors.black,
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) =>
-                        const admin(),
-                    transitionDuration: Duration.zero,
-                    reverseTransitionDuration: Duration.zero,
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-              ),
-              child: const Icon(
-                Icons.account_circle_rounded,
-                color: Colors.black,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ]),
       ),
+      bottomNavigationBar: const Artbt(),
     );
   }
 }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mm_summertask_2023_app/page/admin.dart';
 import 'package:mm_summertask_2023_app/page/article.dart';
 import 'package:mm_summertask_2023_app/list.dart';
-import 'package:mm_summertask_2023_app/page/search.dart';
+import 'package:mm_summertask_2023_app/components/btbar.dart';
 
 class MM extends StatefulWidget {
   const MM({Key? key}) : super(key: key);
@@ -20,7 +19,9 @@ class _MMState extends State<MM> {
         backgroundColor: Colors.black,
         title: Row(
           children: const [
-            CircleAvatar(),
+            CircleAvatar(
+              backgroundImage: AssetImage('lib/assests/mm.png'),
+            ),
             SizedBox(width: 20),
             Text('MONDAY MORNING'),
           ],
@@ -40,10 +41,12 @@ class _MMState extends State<MM> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 15),
-          const Text(
-            '🔥 Trending',
-            style: (TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(15, 15, 0, 0),
+            child: Text(
+              '🔥 Trending',
+              style: (TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            ),
           ),
           const SizedBox(height: 15),
           Expanded(
@@ -52,27 +55,27 @@ class _MMState extends State<MM> {
                 itemBuilder: (context, index) {
                   return ListTile(
                     onTap: () {
-                      Navigator.pushReplacement(
+                      Navigator.push(
                         context,
                         PageRouteBuilder(
                           pageBuilder: (context, animation1, animation2) =>
-                              const articl(),
+                              articl(index),
                           transitionDuration: Duration.zero,
                           reverseTransitionDuration: Duration.zero,
                         ),
                       );
                     },
-                    title: Text(trending[index]),
+                    title: Text(trending[index]['titles']),
+                    subtitle: Text(trending[index]['description']),
                   );
                 }),
           ),
-          const SizedBox(height: 15),
           const Divider(
             height: 25,
             color: Colors.grey,
           ),
           const Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsets.fromLTRB(15, 15, 0, 0),
             child: Text(
               'Articles',
               style: (TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
@@ -84,100 +87,25 @@ class _MMState extends State<MM> {
                 itemCount: articles.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(articles[index]),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation1, animation2) =>
+                              articl(index),
+                          transitionDuration: Duration.zero,
+                          reverseTransitionDuration: Duration.zero,
+                        ),
+                      );
+                    },
+                    title: Text(articles[index]['titles']),
+                    subtitle: Text(articles[index]['description']),
                   );
                 }),
           ),
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) =>
-                        const MM(),
-                    transitionDuration: Duration.zero,
-                    reverseTransitionDuration: Duration.zero,
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-              ),
-              child: const Icon(
-                Icons.home,
-                color: Colors.white,
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) =>
-                        const articl(),
-                    transitionDuration: Duration.zero,
-                    reverseTransitionDuration: Duration.zero,
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-              ),
-              child: const Icon(
-                Icons.article_sharp,
-                color: Colors.black,
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) =>
-                        const search(),
-                    transitionDuration: Duration.zero,
-                    reverseTransitionDuration: Duration.zero,
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-              ),
-              child: const Icon(
-                Icons.search,
-                color: Colors.black,
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) =>
-                        const admin(),
-                    transitionDuration: Duration.zero,
-                    reverseTransitionDuration: Duration.zero,
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-              ),
-              child: const Icon(
-                Icons.account_circle_rounded,
-                color: Colors.black,
-              ),
-            ),
-          ],
-        ),
-      ),
+      bottomNavigationBar: const Hombt(),
     );
   }
 }

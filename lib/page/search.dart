@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mm_summertask_2023_app/page/admin.dart';
-import 'package:mm_summertask_2023_app/page/article.dart';
-import 'package:mm_summertask_2023_app/page/home.dart';
+import 'package:mm_summertask_2023_app/components/btbar.dart';
+import 'package:mm_summertask_2023_app/list.dart';
 
 class search extends StatefulWidget {
   const search({Key? key}) : super(key: key);
@@ -19,100 +18,43 @@ class _searchState extends State<search> {
         backgroundColor: Colors.black,
         title: Row(
           children: const [
-            CircleAvatar(),
+            CircleAvatar(
+              backgroundImage: AssetImage('lib/assests/mm.png'),
+            ),
             SizedBox(width: 20),
             Text('MONDAY MORNING'),
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      body: Center(
+        child: Column(
           children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) =>
-                        const MM(),
-                    transitionDuration: Duration.zero,
-                    reverseTransitionDuration: Duration.zero,
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white, // Background color
-              ),
-              child: const Icon(
-                Icons.home,
-                color: Colors.black,
-              ),
+            const SizedBox(
+              height: 35,
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) =>
-                        const articl(),
-                    transitionDuration: Duration.zero,
-                    reverseTransitionDuration: Duration.zero,
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-              ),
-              child: const Icon(
-                Icons.article_sharp,
-                color: Colors.black,
-              ),
+            const Text(
+              'Search Articles',
+              style: TextStyle(fontSize: 35, fontWeight: FontWeight.w500),
             ),
-            ElevatedButton(
+            const SizedBox(
+              height: 10,
+            ),
+            IconButton(
               onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) =>
-                        const search(),
-                    transitionDuration: Duration.zero,
-                    reverseTransitionDuration: Duration.zero,
-                  ),
+                showSearch(
+                  context: context,
+                  delegate: MMlist(),
                 );
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-              ),
-              child: const Icon(
+              icon: const Icon(
                 Icons.search,
-                color: Colors.white,
+                size: 50,
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) =>
-                        const admin(),
-                    transitionDuration: Duration.zero,
-                    reverseTransitionDuration: Duration.zero,
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-              ),
-              child: const Icon(
-                Icons.account_circle_rounded,
-                color: Colors.black,
-              ),
-            ),
+            )
           ],
         ),
       ),
+      bottomNavigationBar: const Searbt(),
     );
   }
 }
