@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mm_summertask_2023_app/components/btbar.dart';
 import 'package:mm_summertask_2023_app/list.dart';
 
 class articl extends StatelessWidget {
-  articl(this.index);
+  const articl(this.index, {super.key});
 
   final int index;
 
@@ -13,15 +12,11 @@ class articl extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Row(
-          children: const [
-            Text('ARTICLE PAGE'),
-          ],
-        ),
+        title: Text('ARTICLE PAGE'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(children: [
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           const SizedBox(
             height: 15,
           ),
@@ -41,9 +36,42 @@ class articl extends StatelessWidget {
               fontWeight: FontWeight.w300,
             ),
           ),
+          const SizedBox(
+            height: 15,
+          ),
+          const Divider(
+            height: 25,
+            color: Colors.grey,
+          ),
+          Row(
+            children: [
+              ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                ),
+                child: const Icon(
+                  Icons.thumb_up,
+                  color: Colors.blue,
+                ),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                ),
+                child: const Icon(
+                  Icons.thumb_down,
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          )
         ]),
       ),
-      bottomNavigationBar: const Artbt(),
     );
   }
 }

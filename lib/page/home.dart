@@ -17,8 +17,8 @@ class _MMState extends State<MM> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Row(
-          children: const [
+        title: const Row(
+          children: [
             CircleAvatar(
               backgroundImage: AssetImage('lib/assests/mm.png'),
             ),
