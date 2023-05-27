@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mm_summertask_2023_app/components/btbar.dart';
-import 'package:mm_summertask_2023_app/list.dart';
+import 'package:mm_summertask_2023_app/components/list.dart';
 
 class search extends StatefulWidget {
   const search({Key? key}) : super(key: key);

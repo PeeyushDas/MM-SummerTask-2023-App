@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mm_summertask_2023_app/page/article.dart';
-import 'package:mm_summertask_2023_app/list.dart';
+import 'package:mm_summertask_2023_app/components/list.dart';
+import 'package:mm_summertask_2023_app/page/createart.dart';
 
 class admin2 extends StatefulWidget {
   const admin2({super.key});
@@ -19,8 +20,31 @@ class _admin2State extends State<admin2> {
         title: Text('ADMIN'),
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(
+            height: 25,
+          ),
+          SizedBox(
+            height: 50,
+            width: 360,
+            child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation1, animation2) =>
+                          creatart(),
+                      transitionDuration: Duration.zero,
+                      reverseTransitionDuration: Duration.zero,
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                ),
+                child: const Text('Add a new article')),
+          ),
           const Padding(
             padding: EdgeInsets.fromLTRB(15, 15, 0, 0),
             child: Text(
@@ -50,16 +74,7 @@ class _admin2State extends State<admin2> {
                       trailing: TextButton(
                           onPressed: () {
                             articles.add(grandlist[index]);
-                            Navigator.pushReplacement(
-                              context,
-                              PageRouteBuilder(
-                                pageBuilder:
-                                    (context, animation1, animation2) =>
-                                        admin2(),
-                                transitionDuration: Duration.zero,
-                                reverseTransitionDuration: Duration.zero,
-                              ),
-                            );
+                            setState(() {});
                           },
                           child: const Text("Add")));
                 }),
@@ -97,15 +112,7 @@ class _admin2State extends State<admin2> {
                     trailing: TextButton(
                         onPressed: () {
                           articles.removeAt(index);
-                          Navigator.pushReplacement(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (context, animation1, animation2) =>
-                                  admin2(),
-                              transitionDuration: Duration.zero,
-                              reverseTransitionDuration: Duration.zero,
-                            ),
-                          );
+                          setState(() {});
                         },
                         child: const Text(
                           "Remove",

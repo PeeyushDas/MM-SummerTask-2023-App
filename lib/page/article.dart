@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:mm_summertask_2023_app/list.dart';
+import 'package:like_button/like_button.dart';
+import 'package:mm_summertask_2023_app/components/list.dart';
 
-class articl extends StatelessWidget {
+class articl extends StatefulWidget {
   const articl(this.index, {super.key});
 
   final int index;
 
+  @override
+  State<articl> createState() => _articlState();
+}
+
+class _articlState extends State<articl> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text('ARTICLE PAGE'),
+        title: const Text('ARTICLE PAGE'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -21,7 +27,7 @@ class articl extends StatelessWidget {
             height: 15,
           ),
           Text(
-            trending[index]['titles'],
+            trending[widget.index]['titles'],
             style: const TextStyle(
               fontWeight: FontWeight.w900,
               fontSize: 25,
@@ -31,7 +37,7 @@ class articl extends StatelessWidget {
             height: 15,
           ),
           Text(
-            trending[index]['description'],
+            trending[widget.index]['description'],
             style: const TextStyle(
               fontWeight: FontWeight.w300,
             ),
@@ -43,30 +49,13 @@ class articl extends StatelessWidget {
             height: 25,
             color: Colors.grey,
           ),
-          Row(
+          const Row(
             children: [
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                ),
-                child: const Icon(
-                  Icons.thumb_up,
-                  color: Colors.blue,
-                ),
+              LikeButton(
+                likeCount: 0,
               ),
-              const SizedBox(
+              SizedBox(
                 width: 5,
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                ),
-                child: const Icon(
-                  Icons.thumb_down,
-                  color: Colors.black,
-                ),
               ),
             ],
           )

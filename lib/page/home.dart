@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mm_summertask_2023_app/page/article.dart';
-import 'package:mm_summertask_2023_app/list.dart';
+import 'package:mm_summertask_2023_app/components/list.dart';
 import 'package:mm_summertask_2023_app/components/btbar.dart';
 
 class MM extends StatefulWidget {
