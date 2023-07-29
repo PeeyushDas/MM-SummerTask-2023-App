@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mm_summertask_2023_app/page/article.dart';
 
-List<Map<String, dynamic>> trending = [
+List<Map<String, dynamic>> articles = [
   {"titles": "Article 1", "description": " a"},
   {"titles": "Article 2", "description": " ab"},
   {"titles": "Article 3", "description": " abc"},
@@ -12,7 +12,7 @@ List<Map<String, dynamic>> trending = [
   {"titles": "Article 8", "description": " abcdefgh"},
   {"titles": "Article 9", "description": " abcdefghi"},
 ];
-List<Map<String, dynamic>> articles = [
+List<Map<String, dynamic>> trending = [
   {"titles": "Article 1", "description": " a"},
   {"titles": "Article 2", "description": " ab"},
   {"titles": "Article 3", "description": " abc"},
@@ -57,16 +57,19 @@ class MMlist extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    trending;
-
+    List<Map<String, dynamic>> match = [];
+    for (var artlist in articles){
+      if (artlist['titles'].toLowerCase().contains(query.toLowerCase())) { 
+        match.add(artlist);
+      }
+    }
     return ListView.builder(
-        itemCount: trending.length,
-        itemBuilder: (context, index) {
-          final suggs = (trending[index]['titles']);
-
-          return ListTile(
-            title: Text(suggs),
-            onTap: () {
+      itemCount : match.length,
+      itemBuilder: (context, index){
+        var res = match[index];
+        return ListTile(
+          title: Text(res['titles']),
+          onTap: () {
               Navigator.push(
                 context,
                 PageRouteBuilder(
@@ -78,12 +81,40 @@ class MMlist extends SearchDelegate {
               );
               showResults(context);
             },
-          );
-        });
+        );
+      },
+      );
   }
+  
 
   @override
-  Widget buildResults(BuildContext context) => Text(
-        query,
+  Widget buildResults(BuildContext context) {
+    List<Map<String, dynamic>> match = [];
+    for (var artlist in articles){
+      if (artlist['titles'].toLowerCase().contains(query.toLowerCase())) { 
+        match.add(artlist);
+      }
+    }
+    return ListView.builder(
+      itemCount : match.length,
+      itemBuilder: (context, index){
+        var res = match[index];
+        return ListTile(
+          title: Text(res['titles']),
+          onTap: () {
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation1, animation2) =>
+                      articl(index),
+                  transitionDuration: Duration.zero,
+                  reverseTransitionDuration: Duration.zero,
+                ),
+              );
+              showResults(context);
+            },
+        );
+      },
       );
+  }
 }
