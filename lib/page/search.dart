@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mm_summertask_2023_app/components/btbar.dart';
-import 'package:mm_summertask_2023_app/components/list.dart';
 
 class search extends StatefulWidget {
   const search({Key? key}) : super(key: key);
@@ -40,12 +39,7 @@ class _searchState extends State<search> {
               height: 10,
             ),
             IconButton(
-              onPressed: () {
-                showSearch(
-                  context: context,
-                  delegate: MMlist(),
-                );
-              },
+              onPressed: () {},
               icon: const Icon(
                 Icons.search,
                 size: 50,

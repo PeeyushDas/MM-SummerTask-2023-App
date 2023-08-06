@@ -1,17 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
-import 'package:mm_summertask_2023_app/components/list.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class articl extends StatefulWidget {
-  const articl(this.index, {super.key});
+  final String id;
 
-  final int index;
+  const articl({required this.id});
 
   @override
   State<articl> createState() => _articlState();
 }
 
 class _articlState extends State<articl> {
+  Map<String, dynamic> _data = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchDataFromMongoDB(widget.id);
+  }
+
+  Future<void> _fetchDataFromMongoDB(String itemId) async {
+    try {
+      final data = await MongoDBService.fetchDataFromMongoDB(itemId);
+      setState(() {
+        _data = data;
+      });
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +47,7 @@ class _articlState extends State<articl> {
             height: 15,
           ),
           Text(
-            trending[widget.index]['titles'],
+            _data['title'],
             style: const TextStyle(
               fontWeight: FontWeight.w900,
               fontSize: 25,
@@ -37,7 +57,7 @@ class _articlState extends State<articl> {
             height: 15,
           ),
           Text(
-            trending[widget.index]['description'],
+            _data['description'],
             style: const TextStyle(
               fontWeight: FontWeight.w300,
             ),
@@ -49,12 +69,12 @@ class _articlState extends State<articl> {
             height: 25,
             color: Colors.grey,
           ),
-          const Row(
+          Row(
             children: [
               LikeButton(
-                likeCount: 0,
+                likeCount: _data['like'],
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
             ],
@@ -62,5 +82,20 @@ class _articlState extends State<articl> {
         ]),
       ),
     );
+  }
+}
+
+class MongoDBService {
+  static Future<Map<String, dynamic>> fetchDataFromMongoDB(
+      String Itemid) async {
+    final response = await http
+        .get(Uri.parse('http://192.168.128.151:2000/api/article/$Itemid'));
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = json.decode(response.body);
+      return data;
+    } else {
+      throw Exception('Failed to fetch data.');
+    }
   }
 }

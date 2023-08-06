@@ -1,16 +1,74 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:mm_summertask_2023_app/page/article.dart';
-import 'package:mm_summertask_2023_app/components/list.dart';
 import 'package:mm_summertask_2023_app/components/btbar.dart';
+import 'package:http/http.dart' as http;
+import 'package:mm_summertask_2023_app/page/article.dart';
+
+import '../components/list.dart';
 
 class MM extends StatefulWidget {
-  const MM({Key? key}) : super(key: key);
+  const MM({super.key});
 
   @override
   State<MM> createState() => _MMState();
 }
 
 class _MMState extends State<MM> {
+  MongoDBService mongoDBService = MongoDBService();
+  List<Map<String, dynamic>> _data = [];
+  List<Map<String, dynamic>> _data1 = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDataFromMongoDB();
+    fetchDataFromMongoDB1();
+  }
+
+  Future<void> fetchDataFromMongoDB() async {
+    try {
+      final data = await MongoDBService.fetchDataFromMongoDB();
+      setState(() {
+        _data = data;
+      });
+      for (int i = 0; i < _data.length; i++) {
+        bool a = true;
+        if (_data[i]['viewcount'] > 5) {
+          fetchDataFromMongoDB1();
+          for (int j = 0; j < _data1.length; j++) {
+            if (_data[i]['_id'] == _data1[j]['token']) {
+              a = false;
+            }
+          }
+          if (a == true) {
+            final trend = {
+              'title': _data[i]['title'],
+              'description': _data[i]['description'],
+              'viewcount': _data[i]['viewcount'],
+              'token': _data[i]['_id'],
+            };
+            postdata(trend);
+          }
+        }
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
+  }
+
+  Future<void> fetchDataFromMongoDB1() async {
+    try {
+      final data1 = await MongoDBService.fetchDataFromMongoDB1();
+      setState(() {
+        _data1 = data1;
+      });
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
+  }
+
+  int x = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,11 +86,12 @@ class _MMState extends State<MM> {
         ),
         actions: [
           IconButton(
-            onPressed: () {
-              showSearch(
+            onPressed: () async {
+              final selectedArticle = await showSearch(
                 context: context,
-                delegate: MMlist(),
+                delegate: MMlist(_data),
               );
+              if (selectedArticle != null) {}
             },
             icon: const Icon(Icons.search),
           )
@@ -51,22 +110,22 @@ class _MMState extends State<MM> {
           const SizedBox(height: 15),
           Expanded(
             child: ListView.builder(
-                itemCount: trending.length,
+                itemCount: _data1.length,
                 itemBuilder: (context, index) {
                   return ListTile(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (context, animation1, animation2) =>
-                              articl(index),
-                          transitionDuration: Duration.zero,
-                          reverseTransitionDuration: Duration.zero,
-                        ),
+                      fetchDataFromMongoDB1();
+                      x = _data[index]['viewcount'] + 1;
+                      final view = {
+                        'viewcount': x,
+                      };
+                      putData(view, _data1[index]['token']);
+                      _showArticleDetail(
+                        _data1[index]['token'],
                       );
                     },
-                    title: Text(trending[index]['titles']),
-                    subtitle: Text(trending[index]['description']),
+                    title: Text(_data1[index]['title']),
+                    subtitle: Text(_data1[index]['description']),
                   );
                 }),
           ),
@@ -84,22 +143,22 @@ class _MMState extends State<MM> {
           const SizedBox(height: 15),
           Expanded(
             child: ListView.builder(
-                itemCount: articles.length,
+                itemCount: _data.length,
                 itemBuilder: (context, index) {
                   return ListTile(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (context, animation1, animation2) =>
-                              articl(index),
-                          transitionDuration: Duration.zero,
-                          reverseTransitionDuration: Duration.zero,
-                        ),
+                      fetchDataFromMongoDB();
+                      x = _data[index]['viewcount'] + 1;
+                      final view = {
+                        'viewcount': x,
+                      };
+                      putData(view, _data[index]['_id']);
+                      _showArticleDetail(
+                        _data[index]['_id'],
                       );
                     },
-                    title: Text(articles[index]['titles']),
-                    subtitle: Text(articles[index]['description']),
+                    title: Text(_data[index]['title']),
+                    subtitle: Text(_data[index]['description']),
                   );
                 }),
           ),
@@ -107,5 +166,84 @@ class _MMState extends State<MM> {
       ),
       bottomNavigationBar: const Hombt(),
     );
+  }
+
+  void _showArticleDetail(String id) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => articl(
+          id: id,
+        ),
+      ),
+    );
+  }
+
+  Future<void> putData(Map<String, dynamic> data, String id) async {
+    try {
+      await mongoDBService.putDataToMongoDB(data, id);
+    } catch (e) {
+      print('Error posting data: $e');
+    }
+  }
+
+  Future<void> postdata(Map<String, dynamic> data) async {
+    try {
+      await mongoDBService.postDataToMongoDB(data);
+    } catch (e) {
+      print('Error posting data: $e');
+    }
+  }
+}
+
+class MongoDBService {
+  static Future<List<Map<String, dynamic>>> fetchDataFromMongoDB() async {
+    final response = await http
+        .get(Uri.parse('http://192.168.128.151:2000/api/article/all'));
+
+    if (response.statusCode == 200) {
+      List<dynamic> data = json.decode(response.body);
+      return data.cast<Map<String, dynamic>>();
+    } else {
+      throw Exception('Failed to fetch data.');
+    }
+  }
+
+  static Future<List<Map<String, dynamic>>> fetchDataFromMongoDB1() async {
+    final response = await http
+        .get(Uri.parse('http://192.168.128.151:2000/api/article/trending/all'));
+
+    if (response.statusCode == 200) {
+      List<dynamic> data = json.decode(response.body);
+      return data.cast<Map<String, dynamic>>();
+    } else {
+      throw Exception('Failed to fetch data.');
+    }
+  }
+
+  Future<void> putDataToMongoDB(Map<String, dynamic> data, String id) async {
+    final response = await http.put(
+      Uri.parse('http://192.168.128.151:2000/api/article/$id'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode(data),
+    );
+    if (response.statusCode == 200) {
+      print('Data saved successfully');
+    } else {
+      print('Failed to save data.');
+    }
+  }
+
+  Future<void> postDataToMongoDB(Map<String, dynamic> data) async {
+    final response = await http.post(
+      Uri.parse('http://192.168.128.151:2000/api/article/trending'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode(data),
+    );
+    if (response.statusCode == 200) {
+      print('Data saved successfully');
+    } else {
+      print('Failed to save data.');
+    }
   }
 }

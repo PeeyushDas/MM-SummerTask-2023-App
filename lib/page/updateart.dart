@@ -2,17 +2,29 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class creatart extends StatefulWidget {
-  const creatart({super.key});
+class updateart extends StatefulWidget {
+  final String title;
+  final String descp;
+  final String id;
+
+  const updateart({required this.title, required this.descp, required this.id});
 
   @override
-  State<creatart> createState() => _creatartState();
+  State<updateart> createState() => _creatartState();
 }
 
-class _creatartState extends State<creatart> {
+class _creatartState extends State<updateart> {
   MongoDBService mongoDBService = MongoDBService();
-  var titl = TextEditingController();
-  var desc = TextEditingController();
+  late TextEditingController titl;
+  late TextEditingController desc;
+
+  @override
+  void initState() {
+    super.initState();
+
+    titl = TextEditingController(text: widget.title);
+    desc = TextEditingController(text: widget.descp);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +57,6 @@ class _creatartState extends State<creatart> {
                   border: OutlineInputBorder(
                     borderSide: BorderSide.none,
                   ),
-                  hintText: 'Enter Title',
                 ),
               ),
             ),
@@ -85,12 +96,12 @@ class _creatartState extends State<creatart> {
                       'title': titl.text,
                       'description': desc.text,
                     };
-                    postData(data);
+                    putData(data, widget.id);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
                   ),
-                  child: const Text('Add Article')),
+                  child: const Text('Update Article')),
             ),
             const SizedBox(
               height: 25,
@@ -101,9 +112,9 @@ class _creatartState extends State<creatart> {
     );
   }
 
-  Future<void> postData(Map<String, dynamic> data) async {
+  Future<void> putData(Map<String, dynamic> data, String id) async {
     try {
-      await mongoDBService.postDataToMongoDB(data);
+      await mongoDBService.putDataToMongoDB(data, id);
     } catch (e) {
       print('Error posting data: $e');
     }
@@ -111,9 +122,9 @@ class _creatartState extends State<creatart> {
 }
 
 class MongoDBService {
-  Future<void> postDataToMongoDB(Map<String, dynamic> data) async {
-    final response = await http.post(
-      Uri.parse('http://192.168.128.151:2000/api/article'),
+  Future<void> putDataToMongoDB(Map<String, dynamic> data, String id) async {
+    final response = await http.put(
+      Uri.parse('http://192.168.128.151:2000/api/article/$id'),
       headers: {'Content-Type': 'application/json'},
       body: json.encode(data),
     );
